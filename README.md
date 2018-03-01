@@ -1,2 +1,4 @@
 # genetic-algorithm-visualization
 Hill climbing to the highest Gaussian distribution using an evolutionary algorithm.
+
+![](https://github.com/Jaewan-Yun/genetic-algorithm-visualization/blob/master/figures/movie.gif)
