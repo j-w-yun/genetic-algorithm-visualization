@@ -96,9 +96,9 @@ class Population:
                 continue
             break
 
-        # mutate survivors, except top 3%
-        mutation_bound = int(self.pop_size * .97)
-        for i in range(end, mutation_bound):
+        # mutate survivors, except top 1%
+        mutation_bound = int(self.pop_size * .99)
+        for i in range(end, self.pop_size):
             self.pool[i].mutate(mutation_scale)
 
 
