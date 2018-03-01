@@ -4,8 +4,8 @@ import tensorflow as tf
 
 # performance function parameters
 STANDARD_NORM = 1 / np.sqrt(2 * np.pi)
-ROWS = np.arange(0, 5)
-COLS = np.arange(0, 5)
+ROWS = np.arange(0, 8)
+COLS = np.arange(0, 8)
 
 
 # performance function
@@ -13,7 +13,7 @@ def f(x, y):
     elements = []
     for row in ROWS:
         for col in COLS:
-            sigma = (10 / (row * col + 30))
+            sigma = (10 / (row + col + 25))
             elements.append(gaussian(x, y, row, col, sigma))
     return tf.reduce_sum(elements, axis=0)
 
@@ -28,15 +28,15 @@ def gaussian(x, y, x_mean, y_mean, sigma):
 
 
 # visualize performance function
-x_steps = np.arange(-1, 5, 0.02)
-y_steps = np.arange(-1, 5, 0.02)
+x_steps = np.arange(-1, 9, 0.02)
+y_steps = np.arange(-1, 9, 0.02)
 x_val, y_val = np.meshgrid(x_steps, y_steps)
 performance = f(x_val, y_val)
 with tf.Session() as sess:
     z_val = sess.run(performance)
 plt.ion()
 plt.contour(x_val, y_val, z_val)
-plt.axis([-1, 5, -1, 5])
+plt.axis([-1, 8, -1, 8])
 plt.draw()
 plt.pause(0.001)
 
