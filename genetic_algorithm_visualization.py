@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 
 # performance function parameters
-STANDARD_NORM = 1 / np.sqrt(2 * np.pi)
+STANDARD_NORM = 1 / (2 * np.pi)
 ROWS = np.arange(0, 8)
 COLS = np.arange(0, 8)
 MOAT_ROWS = np.arange(5, 7)
@@ -28,7 +28,7 @@ def f():
 
 # hills of performance function
 def gaussian(x_var, y_var, x_mean, y_mean, x_sigma, y_sigma):
-    normalizing = STANDARD_NORM / (x_sigma * y_sigma)
+    normalizing = 1 / (2 * np.pi * x_sigma * y_sigma)
     x_exponent = -1 * tf.square(x_var - x_mean) / (2 * tf.square(x_sigma))
     y_exponent = -1 * tf.square(y_var - y_mean) / (2 * tf.square(y_sigma))
     exponent = x_exponent + y_exponent
@@ -36,10 +36,9 @@ def gaussian(x_var, y_var, x_mean, y_mean, x_sigma, y_sigma):
 
 
 # visualize performance function
-x_steps = np.arange(-1, 9, 0.02)
-y_steps = np.arange(-1, 9, 0.02)
+x_steps = y_steps = np.arange(-1, 9, 0.02)
 x_val, y_val = np.meshgrid(x_steps, y_steps)
-x_val_flat, y_val_flat = x_val.flatten().reshape([-1, 1]), y_val.flatten().reshape([-1, 1])
+x_val_flat, y_val_flat = x_val.reshape([-1, 1]), y_val.reshape([-1, 1])
 x, y, perf_func = f()
 with tf.Session() as sess:
     z_val = sess.run(perf_func, feed_dict={x: x_val_flat, y: y_val_flat})
@@ -138,6 +137,7 @@ class Population:
         pass
 
     def step(self, mutation_scale, sess):
+        # TODO - probability of survival
         end = pop_size // 3
         # sort from lowest perf to greatest perf
         self._order_by_perf(sess)
